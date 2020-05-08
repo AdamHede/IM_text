@@ -1,4 +1,5 @@
-from IM_text import clean_string, count_words, create_wordcloud
+from IM_text import clean_string, count_words, create_wordcloud, topic_model
+from .CONST import HAVET_ER_SKØNT
 
 text = "Havet er skønt, Havet er skønt, Ingen bliver slået, Renset og flået!"
 
@@ -19,3 +20,9 @@ def test_create_wordcloud():
         out = create_wordcloud(text)
     except Exception:
         assert False, "create_wordcloud somehow failed. Sorry to not be more specific, this is still under development."
+
+def test_topic_model():
+    try:
+        topic_dict, topics, vectorizer, model = topic_model(HAVET_ER_SKØNT, n_topics=4)
+    except Exception:
+        assert False, "Topic model somehow failed. Sorry to not be more specific, this is still under development."

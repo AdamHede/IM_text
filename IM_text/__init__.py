@@ -4,6 +4,11 @@ from collections import Counter
 from pandas import DataFrame
 from wordcloud import WordCloud
 from .IM_colours import im_tricolour_a
+from .utils import _display_topics
+import inspect
+
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.decomposition import NMF, LatentDirichletAllocation, TruncatedSVD
 
 digits_and_punctuation = punctuation + digits
 
@@ -88,3 +93,53 @@ def create_wordcloud(text, width=1920, height=1080, font_path="Arial.ttf", backg
     if isinstance(to_file, str):
         wc.to_file(to_file)
     return wc
+
+def topic_model(texts, n_topics=20, words_to_display=20, vectorizer='tfidf', ngram_range=(1,1), max_df=0.95, min_df=3, max_features=1000,
+                method='NMF'):
+    """
+    A function to quickly perform basic topic modelling tasks.
+    :param texts: A series of text documents.
+    :param n_topics: Number of topics to attempt to identify. Default is 20.
+    :param n_words: Number if words to display when topics are found. Default is 20.
+    :param vectorizer: A sklearn style vectorizer. Either CountVectorizer or TfidfVectorizer. Default is "tfidf" which identifies a good default vectorizer.
+    :param ngram_range: Tuple. Only used with the default vectorizer. The range of n-grams to vectorizer. Default is (1,1)
+    :param max_df: Int or Float. Only used with the default vectorizer. Maximum number of occourances of a word. Default is 95% of documents.
+    :param min_df: Int or float. Only used with the default vectorizer. Minimum number of occournaces if a word. Default is 3.
+    :param max_features: Int. Only used with the default vectorizer. Maximum number of words to use. Default is 1000
+    :param method: Must be a sklearn decomposition class, either NMF, LDA or SVD or a string with one of the acronyms to use a default method. Default is "NMF",
+    :return: topic_dict = A dictionary with topic numbers and most common words.
+    topics = A matrix of size (documents x topics) providing loadings for each topic
+    vectorizer = The fitted vectorizer
+    model = The fitted model based on the chosen method.
+    """
+    if vectorizer == 'tfidf':
+        vectorizer = TfidfVectorizer(ngram_range=ngram_range, max_df=max_df, min_df=min_df, max_features=max_features)
+    elif inspect.isclass(vectorizer):
+        vectorizer = vectorizer
+    else:
+        raise Exception("Vectorizer must be a sklearn-style vectorizer")
+    matrix = vectorizer.fit_transform(texts)
+    feature_names = vectorizer.get_feature_names()
+
+    if method.lower() == "nmf":
+        model = NMF(n_components=n_topics)
+    elif method.lower() == "lda" or method.lower == "latentdirichletallocation":
+        model = LatentDirichletAllocation(n_components=n_topics, n_jobs=-1)
+    elif method.lower() == "svd" or method.lower() == 'truncatedsvd':
+        model = TruncatedSVD(n_components=n_topics)
+    elif inspect.isclass(method):
+        model = method
+    else:
+        raise Exception("Method must be either NMF, LDA, SVD or a costum version of one of these.")
+    topics = model.fit_transform(matrix)
+
+    topic_dict = {}
+    topic_list = []
+    for topic_idx, topic in enumerate(model.components_):
+        print(f"Topic {topic_idx}:")
+        topic_dict[topic_idx] = [feature_names[i] for i in topic.argsort()[:-words_to_display - 1:-1]]
+        topic_list.append("_".join([feature_names[i] for i in topic.argsort()[:-3 - 1:-1]]))
+        print(" ".join(topic_dict[topic_idx]))
+    topics = DataFrame(topics, columns=topic_list)
+
+    return topic_dict, topics, vectorizer, model

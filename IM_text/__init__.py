@@ -14,11 +14,14 @@ def clean_string(text, lower_case = True, remove='digits and punctuation', stopw
     if remove is 'digits and punctuation':
         remove = digits_and_punctuation
     if remove is not None:
-        txt = text.translate(str.maketrans(remove, " " * len(remove)))
-    if stopwords is 'danish':
-        txt = [word for word in txt.split() if word not in stopwords_da]
-        txt = " ".join(txt)
-    elif stopwords is "english":
-        txt = [word for word in txt.split() if word not in stopwords_en]
-        txt = " ".join(txt)
-    return txt
+        text = text.translate(str.maketrans(remove, " " * len(remove)))
+    if stopwords is not None:
+        if stopwords is 'danish':
+            stopwords = stopwords_da
+        elif stopwords is 'english':
+            stopwords = stopwords_en
+        else:
+            stopwords = stopwords
+        text = [word for word in text.split() if word not in stopwords]
+        text = " ".join(text)
+    return text

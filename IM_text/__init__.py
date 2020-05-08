@@ -6,6 +6,7 @@ from wordcloud import WordCloud
 from .IM_colours import im_tricolour_a
 from .utils import _display_topics
 import inspect
+from easybert import Bert
 
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation, TruncatedSVD
@@ -143,3 +144,27 @@ def topic_model(texts, n_topics=20, words_to_display=20, vectorizer='tfidf', ngr
     topics = DataFrame(topics, columns=topic_list)
 
     return topic_dict, topics, vectorizer, model
+
+
+def extract_bert_vectors(texts, per_token=True):
+    """
+    This module uses Easy Bert. Read more at: https://github.com/robrua/easy-bert
+    Defaults to use Google's official most recent (as of May 8. 2020) multilingual model: bert_cased_L-24_H-1024_A-16
+    https://tfhub.dev/google/bert_cased_L-24_H-1024_A-16/1
+
+    Also available is a danish fine-tuned version. Go to: https://github.com/botxo/nordic_bert
+    Download a recent version, unzip it and point EasyBert to it's location.
+
+    Similar methods can be followed for common Bert alternatives as well as task-specifically fine-tuned models
+
+    WARNING: I can't get that to work right now...
+    :param texts:
+    :return:
+    """
+    bert_url = "https://tfhub.dev/google/bert_multi_cased_L-12_H-768_A-12/1"
+    print(f"Downloading BERT model from: {bert_url}")
+    bert = Bert(bert_url)
+    print("Download done, now extracting vectors")
+    with bert:
+        out = bert.embed(texts, per_token=per_token)
+    return out

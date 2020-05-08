@@ -26,3 +26,4 @@ def test_topic_model():
         topic_dict, topics, vectorizer, model = topic_model(HAVET_ER_SKØNT, n_topics=4)
     except Exception:
         assert False, "Topic model somehow failed. Sorry to not be more specific, this is still under development."
+

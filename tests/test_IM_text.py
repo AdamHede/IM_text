@@ -1,4 +1,4 @@
-from IM_text import clean_string, count_words, create_wordcloud, topic_model
+from IM_text import clean_string, count_words, create_wordcloud, topic_model, sentiment_analysis
 from .CONST import HAVET_ER_SKØNT
 
 text = "Havet er skønt, Havet er skønt, Ingen bliver slået, Renset og flået!"
@@ -27,3 +27,14 @@ def test_topic_model():
     except Exception:
         assert False, "Topic model somehow failed. Sorry to not be more specific, this is still under development."
 
+def test_sentiment_da():
+    out = sentiment_analysis("Havet er godt, dejligt og skønt", lang="da")
+    assert out > 0.5, "Afinn failed to produce a positive sentiment when it should"
+    out = sentiment_analysis("Oppe på jorden, der bliver folk triste døde ødelagt og dårlige", lang="da")
+    assert out < -0.5, "Afinn failed to produce a negative sentiment when it should"
+
+def test_sentiment_en():
+    out = sentiment_analysis("Darling it's better, down where it's wetter", lang="en")
+    assert out > 0.1, "Vader failed to produce a positive sentiment when it should"
+    out = sentiment_analysis("Fish on the land ain't happy they sad cause they in their bown", lang="en")
+    assert out < -0.1, "Vader failed to produce a negative sentiment when it should"

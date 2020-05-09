@@ -7,6 +7,9 @@ from .IM_colours import im_tricolour_a
 from .utils import _display_topics
 import inspect
 from easybert import Bert
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from afinn import Afinn
+from numpy import tanh
 
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation, TruncatedSVD
@@ -168,3 +171,29 @@ def extract_bert_vectors(texts, per_token=True):
     with bert:
         out = bert.embed(texts, per_token=per_token)
     return out
+
+
+def afinn_wrapper(text):
+    afinn = Afinn(language="da", emoticons=True)
+    return tanh(afinn.score(text))
+
+def vader_wrapper(text):
+    analyzer = SentimentIntensityAnalyzer()
+    scores = analyzer.polarity_scores(text)
+    return scores['compound']
+
+def sentiment_analysis(text, lang='da'):
+    """
+    Basic sentiment analysis function. Works with either danish through Afinn or english through Vadar
+    Note the danish implementation (Afinn) is unbounded, and therefore pushed through a tanh-transformation.
+    It makes it often go towards extreme values.
+    :param text: A text string
+    :param lang: Language to do sentiment analysis for. da (Danish) or en (English). Default is Danish.
+    :return: A sentiment score between -1 (negative) and 1 (positive).
+    """
+    if lang.lower()[:2] == 'da':
+        return afinn_wrapper(text)
+    elif lang.lower()[:2] == 'en':
+        return vader_wrapper(text)
+    else:
+        raise Exception("Language must be either da (danish) or en (english)")

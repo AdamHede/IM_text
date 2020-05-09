@@ -16,6 +16,7 @@ from sklearn.decomposition import NMF, LatentDirichletAllocation, TruncatedSVD
 
 digits_and_punctuation = punctuation + digits
 
+
 def clean_string(text, lower_case = True, remove='digits and punctuation', stopwords='danish'):
     """
     A simple function which cleans a string, using sensible default settings.

@@ -6,6 +6,12 @@
 Welcome to IM_text's documentation!
 ===================================
 
+.. only:: html
+
+    :Release: |version|
+    :Date: |today|
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

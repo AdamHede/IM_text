@@ -12,7 +12,7 @@ Test version 1
     :Release: |version|
     :Date: |today|
 
-.. automodule:: IM_text
+.. automodule:: IM_text.IM_text
     :members:
 
 .. toctree::

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="IM_text-Adam-Hede", # Replace with your own username
-    version="0.0.2",
+    version="0.0.3",
     author="Adam Hede",
     author_email="adhe@implement.dk",
     description="A package to do basic text analysis in Danish very quickly and easily.",

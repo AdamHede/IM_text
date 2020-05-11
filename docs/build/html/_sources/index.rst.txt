@@ -6,6 +6,14 @@
 Welcome to IM_text's documentation!
 ===================================
 
+.. only:: html
+
+    :Release: |version|
+    :Date: |today|
+
+.. automodule:: IM_text.main
+    :members:
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

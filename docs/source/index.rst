@@ -12,12 +12,13 @@ Test version 1
     :Release: |version|
     :Date: |today|
 
-.. automodule:: IM_text.IM_text
+.. automodule:: IM_text
     :members:
 
 .. toctree::
    :maxdepth: 2
 
+   modules
 
 
 Indices and tables

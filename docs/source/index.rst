@@ -11,7 +11,7 @@ Welcome to IM_text's documentation!
     :Release: |version|
     :Date: |today|
 
-.. automodule:: IM_text.main
+.. automodule:: IM_text
     :members:
 
 .. toctree::

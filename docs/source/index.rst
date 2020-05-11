@@ -19,6 +19,8 @@ Test version 1
    :maxdepth: 2
    :caption: Contents:
 
+   modules
+
 
 
 Indices and tables

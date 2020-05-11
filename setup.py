@@ -16,7 +16,7 @@ setuptools.setup(
     install_requires=[
                 'pandas~=0.25.1',
                 'wordcloud~=1.7.0',
-                'easybert~=1.0.3',
+                # 'easybert~=1.0.3',        Too touch a requirement. Forces installs to TensorFlow 1.x
                 'vadersentiment~=3.2.1',
                 'afinn~=0.1',
                 'numpy~=1.17.2',

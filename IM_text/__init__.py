@@ -61,7 +61,7 @@ def count_words(text, format='dataframe'):
     return out
 
 
-def create_wordcloud(text, width=1920, height=1080, font_path="Arial.ttf", background_color='white',
+def create_wordcloud(text, width=1920, height=1080, font_path=None, background_color='white',
                      colormap="Implement", collocations=False, max_words=200, relative_scaling='auto',
                      to_file=None):
     """
@@ -69,7 +69,7 @@ def create_wordcloud(text, width=1920, height=1080, font_path="Arial.ttf", backg
     :param text: A collection of text in a single string
     :param width: Width of the final output. Default = 1920
     :param height: Height of the final output. Default = 1080
-    :param font_path: Path to a font to use. Default is included "Arial.ttf"
+    :param font_path: Path to a font to use. Default is None and is Droid Mono. Arial.ttf should be included.
     :param background_color: Background color of the final image. Default is white.
     :param colormap: Colormap to use. Can be matplotlib LinearSegmentedColormap. See IM_colours from multiple options.
     Default is "Implement", automatically loads tri-colour Implement-style.
@@ -144,9 +144,9 @@ def topic_model(texts, n_topics=20, words_to_display=20, vectorizer='tfidf', ngr
         topic_dict[topic_idx] = [feature_names[i] for i in topic.argsort()[:-words_to_display - 1:-1]]
         topic_list.append("_".join([feature_names[i] for i in topic.argsort()[:-3 - 1:-1]]))
         print(" ".join(topic_dict[topic_idx]))
-    topics = DataFrame(topics, columns=topic_list)
+    topic_loadings = DataFrame(topics, columns=topic_list)
 
-    return topic_dict, topics, vectorizer, model
+    return topic_dict, topic_loadings, vectorizer, model
 
 
 def extract_bert_vectors(texts, per_token=True):

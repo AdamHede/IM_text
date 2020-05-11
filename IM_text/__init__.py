@@ -6,7 +6,6 @@ from wordcloud import WordCloud
 from .IM_colours import im_tricolour_a
 from .utils import _display_topics
 import inspect
-from easybert import Bert
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from afinn import Afinn
 from numpy import tanh
@@ -165,6 +164,10 @@ def extract_bert_vectors(texts, per_token=True):
     :param texts:
     :return:
     """
+    try:
+        from easybert import Bert
+    except ImportError:
+        print("Please install easybert. Notice, this might downgrade your TensorFlow installation to 1.x")
     bert_url = "https://tfhub.dev/google/bert_multi_cased_L-12_H-768_A-12/1"
     print(f"Downloading BERT model from: {bert_url}")
     bert = Bert(bert_url)

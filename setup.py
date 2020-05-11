@@ -13,6 +13,18 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/pypa/sampleproject",
     packages=setuptools.find_packages(),
+    install_requires=[
+                'pandas~=0.25.1',
+                'wordcloud~=1.7.0',
+                'easybert~=1.0.3',
+                'vadersentiment~=3.2.1',
+                'afinn~=0.1',
+                'numpy~=1.17.2',
+                'sklearn~=0.0',
+                'scikit-learn~=0.21.3',
+                'matplotlib~=3.1.1',
+                'setuptools~=46.0.0'
+          ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

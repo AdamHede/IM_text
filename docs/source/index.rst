@@ -5,6 +5,7 @@
 
 Welcome to IM_text's documentation!
 ===================================
+Test version 1
 
 .. only:: html
 

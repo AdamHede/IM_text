@@ -24,7 +24,7 @@ IM\_text.utils module
 Module contents
 ---------------
 
-.. automodule:: IM_text
+.. automodule:: IM_text.IM_text
    :members:
    :undoc-members:
    :show-inheritance:
